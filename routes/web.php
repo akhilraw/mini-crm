@@ -18,3 +18,9 @@ Route::get('/', function () {
 Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// company 
+Route::resource('companies', CompanyController::class);
+
+// employee
+Route::resource('employees', EmployeeController::class);
