@@ -18,6 +18,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <!-- datatable -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
 <body>

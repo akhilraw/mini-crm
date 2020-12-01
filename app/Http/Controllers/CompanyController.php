@@ -19,7 +19,8 @@ class CompanyController extends Controller
         $companies = Company::all();
         if ($companies->isEmpty())
         {
-            return redirect('/');
+            alert()->message('No data found', 'Sorry!');
+            return redirect()->route('home');
         }
         return view('company.index', compact('companies'));
     }
@@ -58,9 +59,11 @@ class CompanyController extends Controller
         }
 
         if ($company->save()) {
-            return redirect()->route('companies.index')->withFlashSuccess(__('New company has been added successfully'));
+            alert()->success('Company Stored successfully', 'Success!');
+            return redirect()->route('companies.index');
         } else {
-            return redirect()->route('companies.index')->withFlashDanger(__('An error occured. Try again'));
+            alert()->error('Company not saved', 'Failure!');
+            return redirect()->route('companies.index');
         }
     }
 
@@ -122,9 +125,11 @@ class CompanyController extends Controller
         }
 
         if ($company->update()) {
-            return redirect()->route('companies.index')->withFlashSuccess(__('company has been updated successfully'));
+            alert()->success('Company updated successfully', 'Success!');
+            return redirect()->route('companies.index');
         } else {
-            return redirect()->route('companies.index')->withFlashDanger(__('An error occured. Try again'));
+            alert()->error('Company update failed', 'Failure!');
+            return redirect()->route('companies.index');
         }
     }
 
@@ -140,7 +145,8 @@ class CompanyController extends Controller
         $destroy = Company::destroy($id);
         if($destroy)
         {
-          return redirect('/companies');
+          alert()->success('Company deleted successfully', 'Success!');
+          return redirect()->route('companies.index');
         }
     }
 }
