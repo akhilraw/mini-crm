@@ -20,7 +20,7 @@ Auth::routes(['register' => false]);
 Route::get('/home', 'HomeController@index')->name('home');
 
 // company 
-Route::resource('companies', CompanyController::class);
+Route::resource('companies', CompanyController::class)->middleware('auth');
 
 // employee
-Route::resource('employees', EmployeeController::class);
+Route::resource('employees', EmployeeController::class)->middleware('auth');
