@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Company;
 
 class CompanyController extends Controller
 {
@@ -14,6 +15,12 @@ class CompanyController extends Controller
     public function index()
     {
         //
+        $companies = Company::all();
+        if ($companies->isEmpty())
+        {
+            return redirect('/');
+        }
+        return view('company.index', compact('companies'));
     }
 
     /**
@@ -24,6 +31,7 @@ class CompanyController extends Controller
     public function create()
     {
         //
+        return view('company.create');
     }
 
     /**
@@ -35,6 +43,24 @@ class CompanyController extends Controller
     public function store(Request $request)
     {
         //
+        $company = new Company();
+
+        $company->name    = $request->name;
+        $company->email   = $request->email;
+        $company->website = $request->website ?? '';
+
+        if($request->file('logo'))
+        {
+            $file           = $request->file('logo');
+            $filename       = $file->getClientOriginalName();
+            $company->logo  = $file->storeAs('public', $filename);
+        }
+
+        if ($company->save()) {
+            return redirect()->route('companies.index')->withFlashSuccess(__('New company has been added successfully'));
+        } else {
+            return redirect()->route('companies.index')->withFlashDanger(__('An error occured. Try again'));
+        }
     }
 
     /**
@@ -46,6 +72,14 @@ class CompanyController extends Controller
     public function show($id)
     {
         //
+        $show = Company::findOrFail($id);
+        if($show)
+        {
+          return view('company.show', compact('show'));
+        }
+        else {
+          return response()->json(['status'=>'false', 'message'=>'Oops! Something Went Wrong']);
+        }
     }
 
     /**
@@ -57,6 +91,11 @@ class CompanyController extends Controller
     public function edit($id)
     {
         //
+        $company = Company::find($id);
+        if($company)
+        {
+          return view('company.edit', compact('company'));
+        }
     }
 
     /**
@@ -69,6 +108,23 @@ class CompanyController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $company = Company::where('id', $id)->first();
+        $company->name    = $request->name;
+        $company->email   = $request->email;
+        $company->website = $request->website ?? '';
+
+        if($request->file('logo'))
+        {
+            $file           = $request->file('logo');
+            $filename       = $file->getClientOriginalName();
+            $company->logo  = $file->storeAs('public', $filename);
+        }
+
+        if ($company->update()) {
+            return redirect()->route('companies.index')->withFlashSuccess(__('company has been updated successfully'));
+        } else {
+            return redirect()->route('companies.index')->withFlashDanger(__('An error occured. Try again'));
+        }
     }
 
     /**
@@ -80,5 +136,10 @@ class CompanyController extends Controller
     public function destroy($id)
     {
         //
+        $destroy = Company::destroy($id);
+        if($destroy)
+        {
+          return redirect('/companies');
+        }
     }
 }
