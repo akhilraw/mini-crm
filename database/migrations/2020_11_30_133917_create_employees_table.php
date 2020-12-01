@@ -23,7 +23,7 @@ class CreateEmployeesTable extends Migration
             $table->timestamps();
 
             // foreign key constraints
-            $table->foreign('company_id')->references('id')->on('companies');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });
     }
 
