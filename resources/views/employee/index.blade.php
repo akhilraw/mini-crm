@@ -6,7 +6,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Manage companies</li>
+            <li class="breadcrumb-item active" aria-current="page">Manage employees</li>
         </ol>
     </nav>
     <table class="table">
@@ -14,22 +14,22 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
-                <th scope="col">website</th>
+                <th scope="col">company</th>
                 <th scope="col">email</th>
                 <th scope="col">actions</th>
             </tr>
         </thead>
         <tbody>
-            @forelse ($companies as $company)
+            @forelse ($employees as $employee)
             <tr>
-                <th scope="row">{{ $company->id }}</th>
-                <td>{{ $company->name }}</td>
-                <td>{{ $company->website }}</td>
-                <td>{{ $company->email }}</td>
+                <th scope="row">{{ $employee->id }}</th>
+                <td>{{ $employee->firstname. ' '. $employee->lastname }}</td>
+                <td>{{ $employee->company_id }}</td>
+                <td>{{ $employee->email }}</td>
                 <td>
-                    <a class="btn btn-warning waves-effect waves-light" href="{{ route('companies.show',$company->id) }}"><i class="ti-eye"></i>show</a>
-                    <a class="btn btn-success waves-effect waves-light" href="{{ route('companies.edit',$company->id) }}"><i class="ti-pencil"></i>edit</a>
-                    <button class="btn btn-danger waves-effect waves-light" onclick="showDeleteModal('{{ route('companies.destroy',[$company->id]) }}')">delete
+                    <a class="btn btn-warning waves-effect waves-light" href="{{ route('employees.show',$employee->id) }}"><i class="ti-eye"></i>show</a>
+                    <a class="btn btn-success waves-effect waves-light" href="{{ route('employees.edit',$employee->id) }}"><i class="ti-pencil"></i>edit</a>
+                    <button class="btn btn-danger waves-effect waves-light" onclick="showDeleteModal('{{ route('employees.destroy',[$employee->id]) }}')">delete
                         <i class="mdi mdi-close"></i>
                     </button>
 
@@ -48,7 +48,7 @@
                     <div class="text-center">
                         <i class="dripicons-wrong h1 text-white"></i>
                         <h4 class="mt-2 text-white">Confirm Delete!</h4>
-                        <form action="{{ route('companies.destroy', $company->id) }}" id="delete-from" method="post">
+                        <form action="{{ route('employees.destroy', $employee->id) }}" id="delete-from" method="post">
                             @csrf
                             <input type="hidden" name="_method" value="delete">
                             <button type="submit" class="btn btn-light my-2">Yes, Delete</button>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Employee;
+use App\Company;
 
 class EmployeeController extends Controller
 {
@@ -14,6 +16,12 @@ class EmployeeController extends Controller
     public function index()
     {
         //
+        $employees = Employee::with('company')->get();
+        if ($employees->isEmpty())
+        {
+            return redirect('/');
+        }
+        return view('employee.index', compact('employees'));
     }
 
     /**
@@ -24,6 +32,8 @@ class EmployeeController extends Controller
     public function create()
     {
         //
+        $companies = Company::all();
+        return view('employee.create', compact('companies'));
     }
 
     /**
@@ -35,6 +45,18 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         //
+        $employee = new employee();
+        $employee->firstname    = $request->firstname ?? '';
+        $employee->lastname     = $request->lastname ?? '';
+        $employee->email        = $request->email ?? '';
+        $employee->company_id   = $request->company_id ?? '';
+        $employee->phone        = $request->phone ?? '';
+
+        if ($employee->save()) {
+            return redirect()->route('employees.index')->withFlashSuccess(__('New employee has been added successfully'));
+        } else {
+            return redirect()->route('employees.index')->withFlashDanger(__('An error occured. Try again'));
+        }
     }
 
     /**
@@ -46,6 +68,14 @@ class EmployeeController extends Controller
     public function show($id)
     {
         //
+        $show = Employee::with('company')->where('id', $id)->first();
+        if($show)
+        {
+          return view('employee.show', compact('show'));
+        }
+        else {
+          return response()->json(['status'=>'false', 'message'=>'Oops! Something Went Wrong']);
+        }
     }
 
     /**
@@ -57,6 +87,12 @@ class EmployeeController extends Controller
     public function edit($id)
     {
         //
+        $companies = Company::all();
+        $employee = Employee::with('company')->where('id', $id)->first();
+        if($employee)
+        {
+          return view('employee.edit', compact('employee', 'companies'));
+        }
     }
 
     /**
@@ -69,6 +105,18 @@ class EmployeeController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $employee = employee::where('id', $id)->first();
+        $employee->firstname    = $request->firstname;
+        $employee->lastname     = $request->lastname;
+        $employee->email        = $request->email;
+        $employee->company_id   = $request->company_id;
+        $employee->phone        = $request->phone;
+
+        if ($employee->update()) {
+            return redirect()->route('employees.index')->withFlashSuccess(__('employee has been updated successfully'));
+        } else {
+            return redirect()->route('employees.index')->withFlashDanger(__('An error occured. Try again'));
+        }
     }
 
     /**
@@ -80,5 +128,10 @@ class EmployeeController extends Controller
     public function destroy($id)
     {
         //
+        $destroy = employee::destroy($id);
+        if($destroy)
+        {
+          return redirect('/employees');
+        }
     }
 }
