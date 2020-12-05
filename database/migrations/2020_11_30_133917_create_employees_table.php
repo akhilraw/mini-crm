@@ -19,7 +19,7 @@ class CreateEmployeesTable extends Migration
             $table->string('lastname');
             $table->unsignedBigInteger('company_id');
             $table->string('email')->unique();
-            $table->integer('phone')->nullable();
+            $table->char('phone', 11)->nullable();
             $table->timestamps();
 
             // foreign key constraints
