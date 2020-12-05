@@ -17,9 +17,9 @@ class CompanyController extends Controller
     {
         //
         $companies = Company::all();
-        if ($companies->isEmpty())
+        if (count($companies) == 0)
         {
-            alert()->message('No data found', 'Sorry!');
+            alert()->warning('No Company record found', 'Sorry!');
             return redirect()->route('home');
         }
         return view('company.index', compact('companies'));

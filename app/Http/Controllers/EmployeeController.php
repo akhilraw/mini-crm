@@ -20,7 +20,8 @@ class EmployeeController extends Controller
         $employees = Employee::with('company')->get();
         if ($employees->isEmpty())
         {
-            return redirect('/');
+            alert()->warning('No Employee records found', 'Sorry!');
+            return redirect()->route('home');
         }
         return view('employee.index', compact('employees'));
     }
