@@ -54,9 +54,11 @@ class EmployeeController extends Controller
         $employee->phone        = $request->phone ?? '';
 
         if ($employee->save()) {
-            return redirect()->route('employees.index')->withFlashSuccess(__('New employee has been added successfully'));
+            alert()->success('Employee added successfully', 'Success!');
+            return redirect()->route('employees.index');
         } else {
-            return redirect()->route('employees.index')->withFlashDanger(__('An error occured. Try again'));
+            alert()->error('Employee creation failed', 'failure!');
+            return redirect()->route('employees.index');
         }
     }
 
@@ -106,7 +108,7 @@ class EmployeeController extends Controller
     public function update(StoreEmployeeRequest $request, $id)
     {
         //
-        $employee = employee::where('id', $id)->first();
+        $employee = Employee::where('id', $id)->first();
         $employee->firstname    = $request->firstname;
         $employee->lastname     = $request->lastname;
         $employee->email        = $request->email;
@@ -114,6 +116,7 @@ class EmployeeController extends Controller
         $employee->phone        = $request->phone;
 
         if ($employee->update()) {
+            alert()->success('Employee details updated successfully', 'Success!');
             return redirect()->route('employees.index')->withFlashSuccess(__('employee has been updated successfully'));
         } else {
             return redirect()->route('employees.index')->withFlashDanger(__('An error occured. Try again'));
