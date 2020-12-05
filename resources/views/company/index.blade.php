@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-@include('sweet::alert')
 <div class="container">
 
     <nav aria-label="breadcrumb">
