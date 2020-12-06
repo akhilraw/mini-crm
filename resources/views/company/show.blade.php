@@ -12,7 +12,7 @@
         <div class="card col-md-6">
             <div class="card-body">
                 <h5 class="card-title">Company logo</h5>
-                <img src="{{ Storage::url($show->logo) }}" alt="" width="100" height="auto">
+                <img src="{{ asset('storage'.str_replace('public', '', $show->logo)) }}" alt="" width="100" height="auto">
             </div>
         </div>
     </div>
