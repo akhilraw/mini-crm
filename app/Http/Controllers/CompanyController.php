@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Company;
 use App\Http\Requests\StoreCompanyRequest;
+use App\Notifications\NewCompanyAdded;
+use Illuminate\Support\Facades\Notification;
+
 
 class CompanyController extends Controller
 {
@@ -59,6 +62,8 @@ class CompanyController extends Controller
         }
 
         if ($company->save()) {
+            // Notification::route('mail', 'akhileshraw1@gmail.com')->notify(new NewCompanyAdded('test'));
+            Notification::route('mail', 'akhileshraw1@gmail.com')->notify(new NewCompanyAdded($company));
             alert()->success('Company Stored successfully', 'Success!');
             return redirect()->route('companies.index');
         } else {
