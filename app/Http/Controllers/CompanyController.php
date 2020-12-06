@@ -19,7 +19,6 @@ class CompanyController extends Controller
     public function index()
     {
         //
-        Notification::route('mail', 'akhileshraw1@gmail.com')->notify(new NewCompanyAdded('test'));
         // Notification::send('akhileshraw1@gmail.com', new NewCompanyAdded());
         $companies = Company::all();
         if (count($companies) == 0)

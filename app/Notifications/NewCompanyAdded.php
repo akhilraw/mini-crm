@@ -17,9 +17,12 @@ class NewCompanyAdded extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct()
+    public $company;
+
+    public function __construct($company)
     {
         //
+        $this->company = $company;
     }
 
     /**
@@ -46,7 +49,7 @@ class NewCompanyAdded extends Notification implements ShouldQueue
         //     ->action('Notification Action', url('/'))
         //     ->line('Thank you for using our application!');
 
-        return (new Mailable('test'))->to('akhileshraw1@gmail.com');
+        return (new Mailable($this->company))->to('akhileshraw1@gmail.com');
     }
 
     /**

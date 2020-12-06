@@ -16,9 +16,12 @@ class NewCompanyAdded extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public $company;
+
+    public function __construct($company)
     {
         //
+        $this->company = $company;
     }
 
     /**
@@ -28,6 +31,11 @@ class NewCompanyAdded extends Mailable
      */
     public function build()
     {
-        return $this->markdown('email.SendMailWhenNewCompanyAdded');
+        return $this->markdown('email.SendMailWhenNewCompanyAdded')->subject('New Company arrived!')->with([
+                'companyName' => $this->company->name,
+                'companyEmail' => $this->company->email,
+                'companyWebsite' => $this->company->website,
+                'companyLogo' => $this->company->logo,
+        ]);
     }
 }
