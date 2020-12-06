@@ -6,8 +6,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\Mail\NewCompanyAdded as Mailable;
 
-class NewCompanyAdded extends Notification
+class NewCompanyAdded extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -40,10 +41,12 @@ class NewCompanyAdded extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+        // return (new MailMessage)
+        //     ->line('The introduction to the notification.')
+        //     ->action('Notification Action', url('/'))
+        //     ->line('Thank you for using our application!');
+
+        return (new Mailable('test'))->to('akhileshraw1@gmail.com');
     }
 
     /**
